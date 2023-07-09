@@ -1,13 +1,18 @@
-// src/prisma/prisma.service.ts
+import { Test, TestingModule } from '@nestjs/testing';
+import { PrismaService } from './prisma.service';
 
-import { INestApplication, Injectable } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+describe('PrismaService', () => {
+  let service: PrismaService;
 
-@Injectable()
-export class PrismaService extends PrismaClient {
-  async enableShutdownHooks(app: INestApplication) {
-    this.$on('beforeExit', async () => {
-      await app.close();
-    });
-  }
-}
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [PrismaService],
+    }).compile();
+
+    service = module.get<PrismaService>(PrismaService);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+});
