@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from '@nestjs/swagger';
-import { article } from '@prisma/client';
+import { Article } from '@prisma/client';
 
-export class ArticleEntity implements article {
+export class ArticleEntity implements Article {
   @ApiProperty()
   id: number;
 
