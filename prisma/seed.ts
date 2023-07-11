@@ -1,9 +1,19 @@
 import { PrismaClient } from '@prisma/client';
-
+import * as bcrypt from 'bcrypt';
 // initialize Prisma Client
 const prisma = new PrismaClient();
 
+async function hashPw(password: string) {
+  const salt = await bcrypt.genSalt(10);
+  // const hashed = await bcrypt.hash(password, salt);
+  // console.log(await bcrypt.hash(password, salt));
+  return await bcrypt.hash(password, salt);
+}
+
 async function main() {
+  // const p1 = await hashPw('password-sabin');
+  // const p2 = await hashPw('password-alex');
+  // console.log(p1, p2);
   // create two dummy users
   const user1 = await prisma.user.upsert({
     where: { email: 'sabin@adams.com' },
@@ -11,7 +21,7 @@ async function main() {
     create: {
       email: 'sabin@adams.com',
       name: 'Sabin Adams',
-      password: 'password-sabin',
+      password: await hashPw('password-sabin'),
     },
   });
 
@@ -21,7 +31,7 @@ async function main() {
     create: {
       email: 'alex@ruheni.com',
       name: 'Alex Ruheni',
-      password: 'password-alex',
+      password: await hashPw('password-alex'),
     },
   });
 

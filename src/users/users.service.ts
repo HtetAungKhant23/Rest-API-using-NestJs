@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 
 const hashingPassword = async (password: string) => {
-  const salt = 10;
+  const salt = await bcrypt.genSalt(10);
   return await bcrypt.hash(password, salt);
 };
 
